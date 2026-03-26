@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiGithub, FiFolder, FiCalendar, FiCode, FiLayers } from 'react-icons/fi';
+import { FiGithub, FiFolder, FiCalendar, FiLayers, FiArrowRight, FiX, FiCode, FiTerminal } from 'react-icons/fi';
 
-// 1. Strictly utilizing ONLY the data provided in your CV
 const projectsData = [
   {
     title: "Volunteer Registration System",
     date: "Nov 2025",
     category: "Full Stack",
+    shortDesc: "An automated waitlist algorithm and RESTful API built to maximize event capacity.",
     techStack: ["React.js", "Node.js", "Express.js", "MongoDB", "JWT", "Gemini API"],
-    githubLink: "https://github.com/the-rahul-tyagi", // Update with exact repo link if needed
+    githubLink: "https://github.com/the-rahul-tyagi/volunteer-registration-system-rallypoint", 
     bullets: [
       "Engineered an automated Node.js/MongoDB FIFO waitlist algorithm, eliminating manual overhead and maximizing event capacity.",
       "Architected a RESTful API with strict JWT-based Role-Based Access Control (RBAC) to secure sensitive admin and volunteer endpoints.",
@@ -20,8 +20,9 @@ const projectsData = [
     title: "AI Study Buddy Pro",
     date: "Apr 2025",
     category: "AI & Python",
+    shortDesc: "A generative AI educational platform for personalized study guides and adaptive tutor chat.",
     techStack: ["Python", "Streamlit", "Gemini 1.5 Pro", "Pillow"],
-    githubLink: "https://github.com/the-rahul-tyagi",
+    githubLink: "https://github.com/the-rahul-tyagi/AI_Study_Buddy_Pro",
     bullets: [
       "Built a Python/Streamlit educational platform using Gemini 1.5 Pro to dynamically generate personalized study guides and adaptive MCQs.",
       "Implemented a multimodal Tutor Chat using the Pillow library, enabling users to upload images for real-time AI problem resolution.",
@@ -32,8 +33,9 @@ const projectsData = [
     title: "UniProjectHub",
     date: "May 2025",
     category: "Full Stack",
+    shortDesc: "A secure collaborative platform for cross-university students to form teams and showcase portfolios.",
     techStack: ["PHP", "MySQL", "HTML5", "CSS3", "jQuery", "SQL"],
-    githubLink: "https://github.com/the-rahul-tyagi",
+    githubLink: "https://github.com/the-rahul-tyagi/UniProjectHubFinalPrject",
     bullets: [
       "Developed a PHP/MySQL collaborative platform enabling cross-university students to securely form teams and showcase portfolios.",
       "Fortified backend security against SQL injection using parameterized queries and implemented secure native PHP password hashing.",
@@ -44,8 +46,9 @@ const projectsData = [
     title: "Brick Breaker Game",
     date: "Jun 2025 - Jul 2025",
     category: "Java",
+    shortDesc: "A real-time 2D game engine built from scratch with custom physics and scalable architecture.",
     techStack: ["Core Java", "Swing/AWT", "OOP"],
-    githubLink: "https://github.com/the-rahul-tyagi",
+    githubLink: "https://github.com/the-rahul-tyagi/BrickBreakerGame",
     bullets: [
       "Engineered a real-time game engine utilizing a javax.swing.Timer driven loop (8ms tick rate) and overridden paintComponent methods for flicker-free 2D rendering.",
       "Architected a scalable Object-Oriented system leveraging Java Enums and ArrayLists to dynamically manage entity states and multi-hit brick health.",
@@ -56,75 +59,102 @@ const projectsData = [
 
 const categories = ["All Projects", "Full Stack", "AI & Python", "Java"];
 
+// Helper to map tech stack names to specific brand colors
+const getTechColor = (tech) => {
+  const t = tech.toLowerCase();
+  if (t.includes("react")) return "text-cyan-500 bg-cyan-500/10 border-cyan-500/20";
+  if (t.includes("node")) return "text-green-500 bg-green-500/10 border-green-500/20";
+  if (t.includes("mongo")) return "text-emerald-500 bg-emerald-500/10 border-emerald-500/20";
+  if (t.includes("python")) return "text-yellow-500 bg-yellow-500/10 border-yellow-500/20";
+  if (t.includes("php")) return "text-indigo-500 bg-indigo-500/10 border-indigo-500/20";
+  if (t.includes("mysql") || t.includes("sql")) return "text-blue-500 bg-blue-500/10 border-blue-500/20";
+  if (t.includes("java") && !t.includes("javascript")) return "text-red-500 bg-red-500/10 border-red-500/20";
+  if (t.includes("gemini")) return "text-purple-500 bg-purple-500/10 border-purple-500/20";
+  if (t.includes("html") || t.includes("css")) return "text-orange-500 bg-orange-500/10 border-orange-500/20";
+  return "text-gray-600 dark:text-gray-300 bg-gray-500/10 border-gray-500/20"; // Default
+};
+
 const Projects = () => {
   const [activeFilter, setActiveFilter] = useState("All Projects");
+  const [selectedProject, setSelectedProject] = useState(null);
 
   const filteredProjects = projectsData.filter(project => 
     activeFilter === "All Projects" || project.category === activeFilter
   );
 
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [selectedProject]);
+
   return (
-    <section id="projects" className="py-24 px-4 md:px-8 lg:px-12 min-h-screen bg-[#f4f7f9] dark:bg-[#0B1120] relative overflow-hidden transition-colors duration-300">
+    <section id="projects" className="py-24 px-4 md:px-8 lg:px-12 min-h-screen bg-[#f4f7f9] dark:bg-[#0B1120] relative overflow-hidden transition-colors duration-500">
       
-      {/* Animated Ambient Glows */}
+      {/* High-Tech Grid Overlay */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9InJnYmEoMTI4LCAxMjgsIDEyOCwgMC4xKSIvPjwvc3ZnPg==')] opacity-50 dark:opacity-20 z-0 pointer-events-none"></div>
+
+      {/* Massive Glowing Orbs */}
       <motion.div 
-        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-[#10b981]/10 rounded-full blur-[150px] pointer-events-none -z-10"
+        animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15], rotate: [0, 90, 0] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-0 right-[-10%] w-[600px] h-[600px] bg-gradient-to-br from-[#10b981] to-teal-500 rounded-full blur-[150px] pointer-events-none z-0"
       />
       <motion.div 
-        animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none -z-10"
+        animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.25, 0.1], rotate: [0, -90, 0] }}
+        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute bottom-0 left-[-10%] w-[700px] h-[700px] bg-gradient-to-tl from-blue-500 to-indigo-500 rounded-full blur-[150px] pointer-events-none z-0"
       />
 
       <div className="max-w-[1400px] mx-auto relative z-10">
         
         {/* Header Area */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
           <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ type: "spring", stiffness: 100 }}
+            transition={{ type: "spring", stiffness: 100, damping: 20 }}
           >
-            <div className="flex items-center gap-3 mb-4">
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10b981] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-[#10b981]"></span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 dark:bg-white/5 border border-gray-200 dark:border-white/10 backdrop-blur-md mb-6 shadow-sm">
+              <FiCode className="text-blue-500 animate-pulse" size={16} />
+              <span className="text-xs font-black tracking-[0.2em] text-gray-800 dark:text-gray-300 uppercase">
+                Architecture & Code
               </span>
-              <span className="text-xs font-extrabold tracking-widest text-gray-500 dark:text-gray-400 uppercase">Architecture & Code</span>
             </div>
-            <h2 className="font-sans text-5xl md:text-6xl font-extrabold text-gray-800 dark:text-white tracking-tight transition-colors">
-              Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#10b981] to-teal-400">Projects</span>
+            <h2 className="font-sans text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 dark:text-white tracking-tight drop-shadow-sm">
+              Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#10b981] via-teal-400 to-blue-500">Projects</span>
             </h2>
           </motion.div>
 
-          {/* Animated Filter Tabs */}
+          {/* Premium Animated Tabs */}
           <motion.div 
-            initial={{ opacity: 0, x: 20 }}
+            initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="flex flex-wrap gap-2 bg-white dark:bg-[#1e293b]/50 p-2 rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm"
+            className="flex flex-wrap gap-2 md:gap-3 bg-white/40 dark:bg-[#1e293b]/40 backdrop-blur-xl p-2 rounded-2xl border border-white/50 dark:border-white/10 shadow-lg"
           >
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setActiveFilter(category)}
-                className={`relative px-5 py-2.5 rounded-xl text-sm font-bold transition-colors duration-300 ${
+                className={`relative px-6 py-3 rounded-xl text-sm md:text-base font-bold transition-all duration-500 ${
                   activeFilter === category 
-                    ? 'text-white' 
-                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white'
+                    ? 'text-white shadow-md' 
+                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/5'
                 }`}
               >
                 {activeFilter === category && (
                   <motion.div 
-                    layoutId="projectFilter"
-                    className="absolute inset-0 bg-[#10b981] rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.4)]"
-                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                    layoutId="projectTab"
+                    className="absolute inset-0 bg-gradient-to-r from-[#10b981] to-blue-500 rounded-xl"
+                    initial={false}
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
-                <span className="relative z-10">{category}</span>
+                <span className="relative z-10 tracking-wide">{category}</span>
               </button>
             ))}
           </motion.div>
@@ -136,72 +166,158 @@ const Projects = () => {
             {filteredProjects.map((project, index) => (
               <motion.div 
                 layout
-                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                initial={{ opacity: 0, scale: 0.9, y: 30 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9, filter: "blur(10px)", transition: { duration: 0.2 } }}
-                transition={{ type: "spring", stiffness: 100, damping: 15, delay: index * 0.05 }}
+                exit={{ opacity: 0, scale: 0.9, y: -20, filter: "blur(10px)", transition: { duration: 0.2 } }}
+                transition={{ type: "spring", stiffness: 120, damping: 20, delay: index * 0.05 }}
                 key={project.title}
-                className="group relative bg-white dark:bg-[#1e293b]/60 backdrop-blur-xl border border-gray-100 dark:border-white/5 p-8 md:p-10 rounded-[2rem] hover:border-[#10b981]/50 dark:hover:border-[#10b981]/50 transition-colors duration-500 overflow-hidden shadow-sm hover:shadow-xl dark:shadow-none flex flex-col h-full"
+                className="group relative bg-white/70 dark:bg-[#1e293b]/50 backdrop-blur-xl border-2 border-gray-100/50 dark:border-white/5 p-8 md:p-10 rounded-[2.5rem] hover:border-[#10b981]/50 dark:hover:border-[#10b981]/50 transition-all duration-500 overflow-hidden shadow-sm hover:shadow-2xl dark:shadow-none flex flex-col h-full"
               >
-                {/* Hover Sweep Glow */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#10b981]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                {/* Glowing Top Border Accent */}
+                <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#10b981] via-teal-400 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                {/* Ambient Card Background Glow */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#10b981]/5 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
 
                 {/* Top Bar: Folder Icon & GitHub Link */}
                 <div className="flex justify-between items-center mb-8 relative z-10">
-                  <div className="w-14 h-14 rounded-2xl bg-emerald-50 dark:bg-[#0B1120] border border-emerald-100 dark:border-white/5 flex items-center justify-center text-[#10b981] group-hover:scale-110 transition-transform duration-500 shadow-sm">
-                    <FiFolder size={24} />
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 border border-emerald-100/50 dark:border-emerald-500/20 flex items-center justify-center text-[#10b981] group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-sm">
+                    <FiFolder size={28} />
                   </div>
                   <a 
                     href={project.githubLink} 
                     target="_blank" 
                     rel="noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 bg-gray-50 dark:bg-[#0B1120] border border-gray-200 dark:border-white/5 rounded-xl text-gray-600 dark:text-gray-400 hover:text-[#10b981] dark:hover:text-[#10b981] hover:border-[#10b981]/30 transition-all text-sm font-bold"
+                    className="flex items-center gap-2 px-5 py-2.5 bg-white/50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-[#10b981] hover:text-white hover:border-[#10b981] transition-all duration-300 text-sm font-bold shadow-sm"
                   >
-                    <FiGithub size={18} /> Code
+                    <FiGithub size={18} /> Source Code
                   </a>
                 </div>
 
                 {/* Project Title & Meta */}
                 <div className="mb-6 relative z-10">
-                  <h3 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-3 group-hover:text-[#10b981] transition-colors">
+                  <h3 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#10b981] group-hover:to-blue-500 transition-all duration-500">
                     {project.title}
                   </h3>
-                  <div className="flex items-center gap-4 text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">
-                    <span className="flex items-center gap-1.5"><FiLayers className="text-[#10b981]" /> {project.category}</span>
-                    <span className="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600"></span>
-                    <span className="flex items-center gap-1.5"><FiCalendar className="text-[#10b981]" /> {project.date}</span>
+                  <div className="flex flex-wrap items-center gap-4 text-xs md:text-sm font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest">
+                    <span className="flex items-center gap-2"><FiLayers className="text-blue-500" /> {project.category}</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-gray-600"></span>
+                    <span className="flex items-center gap-2"><FiCalendar className="text-[#10b981]" /> {project.date}</span>
                   </div>
                 </div>
 
-                {/* Bullet Points */}
-                <div className="flex-grow mb-8 relative z-10">
-                  <ul className="space-y-3">
-                    {project.bullets.map((bullet, i) => (
-                      <li key={i} className="flex items-start gap-3 text-gray-600 dark:text-gray-400 text-sm md:text-base leading-relaxed">
-                        <span className="text-[#10b981] mt-1.5 shrink-0 text-[10px]">▶</span>
-                        <span>{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
+                {/* Short Description & Read More Button */}
+                <div className="flex-grow mb-8 relative z-10 flex flex-col justify-start">
+                  <p className="text-gray-600 dark:text-gray-300 text-base md:text-lg leading-relaxed mb-6 font-medium">
+                    {project.shortDesc}
+                  </p>
+                  <button 
+                    onClick={() => setSelectedProject(project)}
+                    className="flex items-center gap-3 text-[#10b981] font-bold text-sm w-fit group/btn hover:text-blue-500 transition-colors duration-300 px-4 py-2 rounded-lg bg-[#10b981]/10 hover:bg-blue-500/10"
+                  >
+                    View Architecture Details 
+                    <FiArrowRight className="group-hover/btn:translate-x-1 transition-transform" />
+                  </button>
                 </div>
 
-                {/* Tech Stack Footer */}
-                <div className="pt-6 border-t border-gray-100 dark:border-white/5 mt-auto relative z-10">
-                  <div className="flex flex-wrap gap-2">
+                {/* Tech Stack Footer (Color Coded) */}
+                <div className="pt-6 border-t border-gray-100 dark:border-white/10 mt-auto relative z-10">
+                  <div className="flex flex-wrap gap-2.5">
                     {project.techStack.map((tech, i) => (
-                      <span key={i} className="px-3 py-1.5 bg-gray-50 dark:bg-[#0B1120] text-gray-600 dark:text-gray-300 text-xs font-bold uppercase tracking-wider rounded-lg border border-gray-200 dark:border-white/5 shadow-inner">
+                      <span 
+                        key={i} 
+                        className={`px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider rounded-lg border shadow-sm transition-transform hover:scale-105 ${getTechColor(tech)}`}
+                      >
                         {tech}
                       </span>
                     ))}
                   </div>
                 </div>
 
+                {/* Tech Crosshairs Background */}
+                <div className="absolute top-8 right-8 w-4 h-4 border-t-2 border-r-2 border-gray-300 dark:border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </motion.div>
             ))}
           </AnimatePresence>
         </motion.div>
 
       </div>
+
+      {/* --- CINEMATIC MODAL FOR DETAILED BULLET POINTS --- */}
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-gray-900/60 dark:bg-black/80 backdrop-blur-xl"
+            onClick={() => setSelectedProject(null)}
+          >
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, y: 40 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              onClick={(e) => e.stopPropagation()} 
+              className="relative w-full max-w-4xl bg-white dark:bg-[#0B1120] border-2 border-gray-100 dark:border-white/10 p-8 md:p-12 rounded-[2.5rem] shadow-[0_0_50px_rgba(0,0,0,0.3)] overflow-y-auto max-h-[90vh]"
+            >
+              {/* Modal Gradient Accent */}
+              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#10b981] via-teal-400 to-blue-500"></div>
+
+              {/* Close Button */}
+              <button 
+                onClick={() => setSelectedProject(null)}
+                className="absolute top-8 right-8 p-3 text-gray-400 hover:text-white bg-gray-100 dark:bg-white/5 hover:bg-red-500 dark:hover:bg-red-500 rounded-full transition-all duration-300 shadow-sm"
+              >
+                <FiX size={24} />
+              </button>
+
+              {/* Modal Header */}
+              <div className="mb-10 pr-16">
+                <h3 className="text-3xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-6">
+                  {selectedProject.title}
+                </h3>
+                <div className="flex flex-wrap items-center gap-4 text-sm font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest">
+                  <span className="flex items-center gap-2"><FiLayers className="text-blue-500" /> {selectedProject.category}</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-gray-600 hidden sm:block"></span>
+                  <span className="flex items-center gap-2"><FiCalendar className="text-[#10b981]" /> {selectedProject.date}</span>
+                </div>
+              </div>
+
+              {/* Detailed Architecture Bullets */}
+              <div className="mb-12 bg-gray-50 dark:bg-[#1e293b]/50 p-6 md:p-8 rounded-3xl border border-gray-200 dark:border-white/5">
+                <h4 className="flex items-center gap-3 text-xl font-black text-gray-900 dark:text-gray-100 mb-8 pb-4 border-b border-gray-200 dark:border-white/10">
+                  <FiTerminal className="text-[#10b981]" size={24} /> System Architecture & Implementation
+                </h4>
+                <ul className="space-y-6">
+                  {selectedProject.bullets.map((bullet, i) => (
+                    <li key={i} className="flex items-start gap-4 text-gray-700 dark:text-gray-300 text-base md:text-lg leading-relaxed font-medium">
+                      <div className="mt-1.5 w-8 h-8 rounded-full bg-[#10b981]/10 flex items-center justify-center shrink-0 border border-[#10b981]/30">
+                        <span className="text-[#10b981] text-xs font-black">{i + 1}</span>
+                      </div>
+                      <span className="pt-0.5">{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap gap-4 pt-2">
+                <a 
+                  href={selectedProject.githubLink} 
+                  target="_blank" 
+                  rel="noreferrer"
+                  className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#10b981] to-teal-500 hover:from-teal-500 hover:to-blue-500 text-white rounded-xl font-bold transition-all duration-500 shadow-lg shadow-emerald-500/25 hover:-translate-y-1 hover:shadow-emerald-500/40"
+                >
+                  <FiGithub size={22} /> View Source Repository
+                </a>
+              </div>
+
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </section>
   );
 };

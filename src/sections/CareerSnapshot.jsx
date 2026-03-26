@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiDownload, FiBookOpen, FiBriefcase, FiAward, FiStar, FiCode, FiTerminal, FiCheckCircle, FiMapPin } from 'react-icons/fi';
-
+import { FiDownload, FiBookOpen, FiBriefcase, FiAward, FiStar, FiCode, FiTerminal, FiCheckCircle, FiMapPin, FiCpu, FiLayers, FiCalendar } from 'react-icons/fi';
 const tabs = [
   { id: 'Education', icon: <FiBookOpen /> },
   { id: 'Projects', icon: <FiCode /> },
@@ -10,10 +9,23 @@ const tabs = [
   { id: 'Certificates', icon: <FiAward /> }
 ];
 
-// Spring physics variants for smooth, bouncy entrances
+// Helper to map tech stack names to specific brand colors for visual pop
+const getTechColor = (tech) => {
+  const t = tech.toLowerCase();
+  if (t.includes("react") || t.includes("jwt")) return "text-cyan-500 bg-cyan-500/10 border-cyan-500/20";
+  if (t.includes("node")) return "text-green-500 bg-green-500/10 border-green-500/20";
+  if (t.includes("mongo")) return "text-emerald-500 bg-emerald-500/10 border-emerald-500/20";
+  if (t.includes("python")) return "text-yellow-500 bg-yellow-500/10 border-yellow-500/20";
+  if (t.includes("php")) return "text-indigo-500 bg-indigo-500/10 border-indigo-500/20";
+  if (t.includes("mysql") || t.includes("sql") || t.includes("jquery")) return "text-blue-500 bg-blue-500/10 border-blue-500/20";
+  if (t.includes("gemini") || t.includes("streamlit")) return "text-purple-500 bg-purple-500/10 border-purple-500/20";
+  return "text-gray-600 dark:text-gray-300 bg-gray-500/10 border-gray-500/20";
+};
+
+// Premium Spring physics variants
 const containerVariants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+  visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
   exit: { opacity: 0, transition: { staggerChildren: 0.05, staggerDirection: -1 } }
 };
 
@@ -23,9 +35,9 @@ const cardVariants = {
     opacity: 1, 
     y: 0, 
     scale: 1,
-    transition: { type: "spring", stiffness: 120, damping: 15 }
+    transition: { type: "spring", stiffness: 150, damping: 18 }
   },
-  exit: { opacity: 0, scale: 0.95, transition: { duration: 0.2 } }
+  exit: { opacity: 0, scale: 0.95, y: -10, transition: { duration: 0.2 } }
 };
 
 const CareerSnapshot = () => {
@@ -35,36 +47,42 @@ const CareerSnapshot = () => {
     switch (activeTab) {
       case 'Education':
         return (
-          <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="flex flex-col gap-4">
+          <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="flex flex-col gap-6">
             {[
-              { degree: "B.Tech - Computer Science", school: "Lovely Professional University", location: "Phagwara, Punjab", date: "2023 - Present", score: "CGPA: 8.03" },
-              { degree: "Intermediate (PCM)", school: "New St. Stephens Public School", location: "Agra, UP", date: "2021 - 2022", score: "78.4%" },
-              { degree: "Matriculation", school: "New St. Stephens Public School", location: "Agra, UP", date: "2019 - 2020", score: "83.4%" }
+              { degree: "B.Tech - Computer Science", school: "Lovely Professional University", location: "Phagwara, Punjab", date: "2023 - Present", score: "CGPA: 8.03", highlight: true },
+              { degree: "Intermediate (PCM)", school: "New St. Stephens Public School", location: "Agra, UP", date: "2021 - 2022", score: "78.4%", highlight: false },
+              { degree: "Matriculation", school: "New St. Stephens Public School", location: "Agra, UP", date: "2019 - 2020", score: "83.4%", highlight: false }
             ].map((edu, idx) => (
               <motion.div 
                 key={idx} variants={cardVariants}
-                className="relative bg-white dark:bg-[#1e293b] border border-gray-100 dark:border-white/10 p-5 md:p-6 rounded-2xl flex flex-col md:flex-row justify-between md:items-center gap-4 group hover:border-[#10b981] dark:hover:border-[#10b981] transition-all duration-300 shadow-sm hover:shadow-lg overflow-hidden"
+                className="relative bg-white/70 dark:bg-[#1e293b]/50 backdrop-blur-xl border-2 border-gray-100/50 dark:border-white/5 p-6 md:p-8 rounded-[2rem] flex flex-col md:flex-row justify-between md:items-center gap-6 group hover:border-[#10b981]/50 dark:hover:border-[#10b981]/50 transition-all duration-500 shadow-sm hover:shadow-2xl overflow-hidden"
               >
-                {/* Hover Sweep Effect */}
-                <div className="absolute inset-0 bg-[#10b981]/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
+                {/* Glowing Side Accent Line */}
+                <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${edu.highlight ? 'bg-gradient-to-b from-[#10b981] to-teal-500' : 'bg-gray-200 dark:bg-gray-700 group-hover:bg-[#10b981]'} transition-colors duration-500`}></div>
                 
-                <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#10b981] scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-top rounded-l-2xl"></div>
+                {/* Ambient Background Glow on Hover */}
+                <div className="absolute inset-0 bg-gradient-to-r from-[#10b981]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"></div>
                 
-                <div className="relative z-10">
-                  <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-1 group-hover:text-[#10b981] transition-colors">{edu.degree}</h3>
+                <div className="relative z-10 flex-grow pr-4">
+                  <h3 className="text-xl md:text-2xl font-extrabold text-gray-900 dark:text-white mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#10b981] group-hover:to-teal-500 transition-all duration-300">
+                    {edu.degree}
+                  </h3>
                   
-                  <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-sm mb-3">
-                    <span className="font-medium">{edu.school}</span>
-                    <span className="text-gray-300 dark:text-gray-600">•</span>
-                    <span className="flex items-center gap-1 text-[#10b981]"><FiMapPin size={14} />{edu.location}</span>
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-gray-600 dark:text-gray-400 text-sm font-medium mb-4">
+                    <span className="flex items-center gap-1.5"><FiBookOpen className="text-blue-500" /> {edu.school}</span>
+                    <span className="hidden md:inline text-gray-300 dark:text-gray-600">•</span>
+                    <span className="flex items-center gap-1.5"><FiMapPin className="text-red-400" /> {edu.location}</span>
                   </div>
 
-                  <span className="inline-block px-3 py-1 bg-emerald-50 dark:bg-[#10b981]/10 text-[#10b981] text-[10px] font-extrabold uppercase tracking-widest rounded-md border border-emerald-100 dark:border-[#10b981]/20">
+                  <span className="inline-block px-4 py-1.5 bg-gradient-to-r from-[#10b981]/10 to-teal-500/10 text-[#10b981] text-xs font-black uppercase tracking-widest rounded-lg border border-[#10b981]/20 shadow-sm">
                     {edu.score}
                   </span>
                 </div>
-                <div className="text-left md:text-right relative z-10">
-                  <span className="text-sm font-bold text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-white/5 px-3 py-1.5 rounded-lg border border-gray-100 dark:border-white/5">{edu.date}</span>
+                
+                <div className="text-left md:text-right relative z-10 shrink-0">
+                  <span className="inline-flex items-center justify-center text-xs md:text-sm font-black text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-white/5 px-4 py-2.5 rounded-xl border border-gray-200 dark:border-white/10 shadow-inner group-hover:bg-[#10b981]/10 group-hover:text-[#10b981] group-hover:border-[#10b981]/20 transition-all duration-300">
+                    <FiCalendar className="mr-2" size={14} /> {edu.date}
+                  </span>
                 </div>
               </motion.div>
             ))}
@@ -73,35 +91,26 @@ const CareerSnapshot = () => {
 
       case 'Projects':
         return (
-          <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="flex flex-col gap-4">
+          <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
-              { 
-                title: "Volunteer Registration System", 
-                tech: ["MERN Stack", "JWT", "Gemini API"], 
-                desc: "Automated FIFO waitlist algorithm with Gemini-powered SEO generation and dynamic volunteer matching." 
-              },
-              { 
-                title: "UniProjectHub", 
-                tech: ["PHP", "MySQL", "jQuery"], 
-                desc: "Secure collaborative platform featuring native password hashing and complex SQL JOINs for statistics." 
-              },
-              { 
-                title: "AI Study Buddy Pro", 
-                tech: ["Python", "Streamlit", "Gemini 1.5 Pro"], 
-                desc: "Educational tool generating adaptive MCQs with a multimodal Tutor Chat for real-time AI problem resolution." 
-              }
+              { title: "Volunteer Registration System", tech: ["MERN Stack", "JWT", "Gemini API"], desc: "Automated FIFO waitlist algorithm with Gemini-powered SEO generation and dynamic volunteer matching." },
+              { title: "UniProjectHub", tech: ["PHP", "MySQL", "jQuery"], desc: "Secure collaborative platform featuring native password hashing and complex SQL JOINs for statistics." },
+              { title: "AI Study Buddy Pro", tech: ["Python", "Streamlit", "Gemini 1.5 Pro"], desc: "Educational tool generating adaptive MCQs with a multimodal Tutor Chat for real-time AI problem resolution." }
             ].map((project, idx) => (
               <motion.div 
                 key={idx} variants={cardVariants}
-                className="relative bg-white dark:bg-[#1e293b] border border-gray-100 dark:border-white/10 p-5 md:p-6 rounded-2xl hover:border-[#10b981] dark:hover:border-[#10b981] transition-all duration-300 shadow-sm hover:shadow-lg group overflow-hidden"
+                className={`relative bg-white/70 dark:bg-[#1e293b]/50 backdrop-blur-xl border-2 border-gray-100/50 dark:border-white/5 p-6 md:p-8 rounded-[2rem] hover:border-[#10b981]/50 dark:hover:border-[#10b981]/50 transition-all duration-500 shadow-sm hover:shadow-2xl group overflow-hidden ${idx === 2 ? 'md:col-span-2 xl:col-span-1' : ''}`}
               >
-                <div className="absolute inset-0 bg-[#10b981]/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
+                {/* Glowing Top Border */}
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#10b981] to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-3">
-                  <h3 className="text-lg font-bold text-gray-800 dark:text-white group-hover:text-[#10b981] transition-colors">{project.title}</h3>
-                  <div className="flex flex-wrap gap-2">
+                <div className="relative z-10 mb-4">
+                  <h3 className="text-xl font-extrabold text-gray-900 dark:text-white group-hover:text-[#10b981] transition-colors mb-4 flex items-center gap-3">
+                    <FiLayers className="text-blue-500 group-hover:scale-110 transition-transform" /> {project.title}
+                  </h3>
+                  <div className="flex flex-wrap gap-2 mb-4">
                     {project.tech.map(t => (
-                      <span key={t} className="px-2.5 py-1 bg-gray-50 dark:bg-[#0B1120] text-gray-600 dark:text-gray-300 text-[9px] font-bold uppercase tracking-wider rounded border border-gray-200 dark:border-white/5 shadow-inner">
+                      <span key={t} className={`px-3 py-1.5 text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-lg border shadow-sm ${getTechColor(t)}`}>
                         {t}
                       </span>
                     ))}
@@ -110,6 +119,9 @@ const CareerSnapshot = () => {
                 <p className="relative z-10 text-gray-600 dark:text-gray-400 text-sm leading-relaxed font-medium">
                   {project.desc}
                 </p>
+
+                {/* Tech Crosshairs */}
+                <div className="absolute bottom-6 right-6 w-3 h-3 border-b-2 border-r-2 border-gray-300 dark:border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </motion.div>
             ))}
           </motion.div>
@@ -117,23 +129,32 @@ const CareerSnapshot = () => {
 
       case 'Training':
         return (
-          <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="flex flex-col gap-4">
-            <motion.div variants={cardVariants} className="relative bg-white dark:bg-[#1e293b] border border-gray-100 dark:border-white/10 p-6 md:p-8 rounded-2xl hover:border-[#10b981] dark:hover:border-[#10b981] transition-all duration-300 shadow-sm hover:shadow-lg overflow-hidden group">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 dark:bg-blue-500/10 rounded-full blur-[40px] pointer-events-none group-hover:bg-[#10b981]/10 transition-colors"></div>
+          <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="flex flex-col gap-6">
+            <motion.div variants={cardVariants} className="relative bg-white/70 dark:bg-[#1e293b]/50 backdrop-blur-xl border-2 border-gray-100/50 dark:border-white/5 p-8 md:p-10 rounded-[2.5rem] hover:border-[#10b981]/50 dark:hover:border-[#10b981]/50 transition-all duration-500 shadow-sm hover:shadow-2xl overflow-hidden group">
+              {/* Massive ambient background icon */}
+              <div className="absolute -right-10 -bottom-10 text-gray-100 dark:text-white/5 group-hover:text-[#10b981]/10 group-hover:scale-110 group-hover:rotate-12 transition-all duration-700 pointer-events-none z-0">
+                <FiCode size={250} />
+              </div>
               
-              <div className="relative z-10 flex items-center gap-4 mb-5">
-                <div className="p-3 bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 rounded-xl group-hover:text-[#10b981] group-hover:bg-[#10b981]/10 transition-colors">
-                  <FiBriefcase size={22} />
+              <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-6 mb-8">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-500/20 dark:to-indigo-500/20 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:text-white group-hover:from-[#10b981] group-hover:to-teal-500 shadow-inner transition-all duration-500 shrink-0 border border-blue-200 dark:border-blue-500/30">
+                  <FiTerminal size={28} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-800 dark:text-white">Mastering Java for App Development</h3>
-                  <p className="text-[#10b981] text-xs font-extrabold mt-1 tracking-wider uppercase">LPU HRDC • Jun - Jul 2025</p>
+                  <h3 className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#10b981] group-hover:to-blue-500 transition-all duration-300">
+                    Mastering Java for App Development
+                  </h3>
+                  <div className="flex items-center gap-3">
+                    <span className="px-3 py-1 bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300 text-[10px] font-black uppercase tracking-widest rounded-lg border border-gray-200 dark:border-white/10">LPU HRDC</span>
+                    <span className="text-gray-400 dark:text-gray-600 text-xs font-bold uppercase tracking-widest"><FiCalendar className="inline mr-1 mb-0.5" /> Jun - Jul 2025</span>
+                  </div>
                 </div>
               </div>
 
-              <div className="relative z-10 pt-4 border-t border-gray-100 dark:border-white/5">
-                <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
-                  <strong className="text-gray-800 dark:text-white font-bold">Project: Brick Breaker Game.</strong> Engineered a real-time 2D game engine in Core Java (Swing/AWT) featuring custom collision physics, multi-hit logic, and an 8ms tick rate via Timer loops.
+              <div className="relative z-10 pt-6 border-t border-gray-100 dark:border-white/10 bg-gray-50/50 dark:bg-white/5 rounded-2xl p-6 border group-hover:border-[#10b981]/20 transition-colors">
+                <p className="text-gray-700 dark:text-gray-300 text-base md:text-lg leading-relaxed font-medium">
+                  <strong className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500 font-extrabold uppercase tracking-widest text-xs block mb-2">Capstone Project: Brick Breaker Game</strong> 
+                  Engineered a real-time 2D game engine in Core Java (Swing/AWT) featuring custom collision physics, multi-hit logic, and an 8ms tick rate via Timer loops.
                 </p>
               </div>
             </motion.div>
@@ -142,48 +163,53 @@ const CareerSnapshot = () => {
 
       case 'Achievements':
         return (
-          <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="grid md:grid-cols-1 gap-4">
+          <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="grid grid-cols-1 gap-6">
             {[
-              "Solved 100+ algorithmic problems on LeetCode",
-              "Secured a 5-Star Rating in Java, Python, and C++ on HackerRank",
-              "Earned 10+ skill badges on MongoDB Atlas & MongoDB University"
-            ].map((achievement, idx) => (
-              <motion.div 
-                key={idx} variants={cardVariants}
-                className="relative bg-white dark:bg-[#1e293b] border border-gray-100 dark:border-white/10 p-5 md:p-6 rounded-2xl flex items-center gap-5 hover:border-[#10b981] dark:hover:border-[#10b981] transition-all duration-300 shadow-sm hover:shadow-lg group overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-[#10b981]/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
-                
-                <div className="relative z-10 w-12 h-12 rounded-xl bg-gray-50 dark:bg-[#0B1120] border border-gray-100 dark:border-white/5 flex items-center justify-center text-[#10b981] shrink-0 group-hover:scale-110 group-hover:bg-[#10b981] group-hover:text-white dark:group-hover:text-[#0B1120] shadow-inner transition-all duration-300">
-                  <FiStar size={20} className={idx === 1 ? "fill-current" : ""} />
-                </div>
-                <h3 className="relative z-10 text-gray-800 dark:text-white font-medium text-sm md:text-base">{achievement}</h3>
-              </motion.div>
-            ))}
+              { title: "Solved 100+ algorithmic problems on LeetCode", icon: FiCode, color: "text-yellow-500" },
+              { title: "Secured a 5-Star Rating in Java, Python, and C++ on HackerRank", icon: FiStar, color: "text-emerald-500" },
+              { title: "Earned 10+ skill badges on MongoDB Atlas & MongoDB University", icon: FiAward, color: "text-green-500" }
+            ].map((achievement, idx) => {
+              const Icon = achievement.icon;
+              return (
+                <motion.div 
+                  key={idx} variants={cardVariants}
+                  className="relative bg-white/70 dark:bg-[#1e293b]/50 backdrop-blur-xl border-2 border-gray-100/50 dark:border-white/5 p-6 md:p-8 rounded-[2rem] flex items-center gap-6 hover:border-[#10b981]/50 dark:hover:border-[#10b981]/50 transition-all duration-500 shadow-sm hover:shadow-2xl group overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#10b981]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                  
+                  <div className={`relative z-10 w-16 h-16 rounded-2xl bg-white dark:bg-[#0B1120] border border-gray-100 dark:border-white/10 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-[#10b981] group-hover:text-white shadow-lg transition-all duration-500 ${achievement.color}`}>
+                    <Icon size={28} className={idx === 1 ? "fill-current" : ""} />
+                  </div>
+                  <h3 className="relative z-10 text-gray-900 dark:text-white font-extrabold text-lg md:text-xl leading-snug group-hover:text-[#10b981] transition-colors duration-300">
+                    {achievement.title}
+                  </h3>
+                </motion.div>
+              );
+            })}
           </motion.div>
         );
 
       case 'Certificates':
         return (
-          <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="grid md:grid-cols-2 gap-4">
+          <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="grid md:grid-cols-2 gap-6">
             {[
-              { title: "Node.js", issuer: "HackerRank" },
-              { title: "Python", issuer: "HackerRank" },
-              { title: "Cloud Computing - Elite", issuer: "NPTEL (IIT Kharagpur)" },
-              { title: "Responsive Web Design", issuer: "freeCodeCamp" }
+              { title: "Node.js Architecture", issuer: "HackerRank", color: "text-green-500" },
+              { title: "Python Problem Solving", issuer: "HackerRank", color: "text-yellow-500" },
+              { title: "Cloud Computing - Elite", issuer: "NPTEL (IIT Kharagpur)", color: "text-blue-500" },
+              { title: "Responsive Web Design", issuer: "freeCodeCamp", color: "text-orange-500" }
             ].map((cert, idx) => (
               <motion.div 
                 key={idx} variants={cardVariants}
-                className="relative bg-white dark:bg-[#1e293b] border border-gray-100 dark:border-white/10 p-5 rounded-2xl flex items-center gap-4 hover:border-[#10b981] dark:hover:border-[#10b981] transition-all duration-300 shadow-sm hover:shadow-lg group overflow-hidden"
+                className="relative bg-white/70 dark:bg-[#1e293b]/50 backdrop-blur-xl border-2 border-gray-100/50 dark:border-white/5 p-6 rounded-[2rem] flex items-center gap-5 hover:border-[#10b981]/50 dark:hover:border-[#10b981]/50 transition-all duration-500 shadow-sm hover:shadow-2xl group overflow-hidden"
               >
-                <div className="absolute inset-0 bg-[#10b981]/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-[#10b981]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                 
-                <div className="relative z-10 w-10 h-10 rounded-full bg-gray-50 dark:bg-[#0B1120] border border-gray-100 dark:border-white/5 flex items-center justify-center text-[#10b981] group-hover:scale-110 transition-transform duration-300 shrink-0 shadow-inner">
-                  <FiCheckCircle size={18} />
+                <div className={`relative z-10 w-12 h-12 rounded-xl bg-white dark:bg-[#0B1120] border border-gray-100 dark:border-white/10 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-inner ${cert.color}`}>
+                  <FiCheckCircle size={24} />
                 </div>
-                <div className="relative z-10">
-                  <h3 className="text-gray-800 dark:text-white font-bold text-sm group-hover:text-[#10b981] transition-colors">{cert.title}</h3>
-                  <p className="text-gray-500 dark:text-gray-400 text-xs mt-0.5 font-medium">{cert.issuer}</p>
+                <div className="relative z-10 flex-grow">
+                  <h3 className="text-gray-900 dark:text-white font-extrabold text-base md:text-lg group-hover:text-[#10b981] transition-colors leading-tight mb-1">{cert.title}</h3>
+                  <p className="text-gray-500 dark:text-gray-400 text-xs font-black uppercase tracking-widest">{cert.issuer}</p>
                 </div>
               </motion.div>
             ))}
@@ -196,91 +222,93 @@ const CareerSnapshot = () => {
   };
 
   return (
-    <section id="resume" className="py-24 px-4 md:px-8 lg:px-12 min-h-screen bg-[#f4f7f9] dark:bg-[#0B1120] relative overflow-hidden flex flex-col justify-center transition-colors duration-300">
+    <section id="resume" className="py-24 px-4 md:px-8 lg:px-12 min-h-screen bg-[#f4f7f9] dark:bg-[#0B1120] relative overflow-hidden flex flex-col justify-center transition-colors duration-500">
       
-      {/* Animated Ambient Glows */}
+      {/* High-Tech Grid Overlay */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9InJnYmEoMTI4LCAxMjgsIDEyOCwgMC4xKSIvPjwvc3ZnPg==')] opacity-50 dark:opacity-20 z-0 pointer-events-none"></div>
+
+      {/* Massive Glowing Orbs */}
       <motion.div 
-        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-[#10b981]/10 rounded-full blur-[100px] md:blur-[120px] pointer-events-none -z-10 -translate-y-1/2"
+        animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15], rotate: [0, 90, 0] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/4 left-[-10%] w-[600px] h-[600px] bg-gradient-to-br from-[#10b981] to-teal-500 rounded-full blur-[150px] pointer-events-none z-0"
       />
       <motion.div 
-        animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[80px] md:blur-[100px] pointer-events-none -z-10"
+        animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.25, 0.1], rotate: [0, -90, 0] }}
+        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute bottom-[-10%] right-[-10%] w-[700px] h-[700px] bg-gradient-to-tl from-blue-500 to-indigo-500 rounded-full blur-[150px] pointer-events-none z-0"
       />
       
-      <div className="max-w-[1200px] w-full mx-auto relative z-10">
+      <div className="max-w-[1400px] w-full mx-auto relative z-10">
         
-        {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
-          <motion.div initial={{ opacity: 0, y: -20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ type: "spring", stiffness: 100 }}>
-             <div className="flex items-center gap-3 mb-3">
-               <span className="relative flex h-3 w-3">
-                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10b981] opacity-75"></span>
-                 <span className="relative inline-flex rounded-full h-3 w-3 bg-[#10b981]"></span>
-               </span>
-               <span className="text-xs font-extrabold tracking-widest text-gray-500 dark:text-gray-400 uppercase">Executive Summary</span>
+        {/* Header & Global CTA */}
+        <div className="flex flex-col xl:flex-row justify-between items-start xl:items-end mb-16 gap-8">
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ type: "spring", stiffness: 100, damping: 20 }}
+          >
+             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 dark:bg-white/5 border border-gray-200 dark:border-white/10 backdrop-blur-md mb-6 shadow-sm">
+               <FiCpu className="text-blue-500 animate-pulse" size={16} />
+               <span className="text-xs font-black tracking-[0.2em] text-gray-800 dark:text-gray-300 uppercase">Executive Summary</span>
              </div>
-             <h2 className="font-sans text-5xl md:text-6xl font-extrabold text-gray-800 dark:text-white tracking-tight transition-colors">
-               My <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#10b981] to-teal-500">Resume</span>
+             <h2 className="font-sans text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 dark:text-white tracking-tight drop-shadow-sm">
+               My <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#10b981] via-teal-400 to-blue-500">Resume</span>
              </h2>
           </motion.div>
           
           <motion.a 
-            initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ type: "spring", stiffness: 120 }}
+            initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ type: "spring", stiffness: 120, damping: 20 }}
             href="/resume.pdf" 
             download 
-            className="group relative flex items-center gap-3 px-8 py-4 bg-white dark:bg-[#1e293b] border border-gray-200 dark:border-white/10 text-gray-800 dark:text-white text-sm font-bold uppercase tracking-widest rounded-2xl transition-all shadow-md hover:shadow-xl hover:border-[#10b981] dark:hover:border-[#10b981]/50 overflow-hidden"
+            className="group relative flex items-center gap-4 px-8 py-4 bg-gradient-to-r from-[#10b981] to-teal-500 text-white text-sm md:text-base font-extrabold uppercase tracking-widest rounded-2xl transition-all duration-500 shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 hover:-translate-y-1 overflow-hidden"
           >
-            {/* Button Hover Sweep */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#10b981] to-teal-500 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out -z-10"></div>
-            <FiDownload size={20} className="text-[#10b981] group-hover:text-white group-hover:-translate-y-1 transition-all duration-300" /> 
-            <span className="group-hover:text-white transition-colors duration-300">Download CV</span>
+            {/* Massive Hover Glow inside button */}
+            <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out z-0"></div>
+            <FiDownload size={22} className="relative z-10 group-hover:-translate-y-1 transition-transform duration-300 drop-shadow-md" /> 
+            <span className="relative z-10 drop-shadow-md">Download Full CV</span>
           </motion.a>
         </div>
 
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           
-          {/* Animated Tab Navigation */}
+          {/* Animated Glassmorphism Sidebar Navigation */}
           <motion.div 
-            initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ type: "spring", stiffness: 100 }}
-            className="lg:col-span-4 bg-white dark:bg-[#1e293b] border border-gray-100 dark:border-white/5 rounded-3xl p-3 flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-visible sticky top-28 z-20 scrollbar-hide shadow-xl"
+            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ type: "spring", stiffness: 100, damping: 20 }}
+            className="lg:col-span-4 bg-white/40 dark:bg-[#1e293b]/40 backdrop-blur-xl border border-white/50 dark:border-white/10 rounded-[2.5rem] p-3 flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-visible sticky top-32 z-20 scrollbar-hide shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.1)]"
           >
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className="relative flex items-center gap-4 px-6 py-4 rounded-2xl text-left font-bold text-sm transition-colors duration-300 whitespace-nowrap lg:whitespace-normal group"
+                className="relative flex items-center gap-4 px-6 py-4 rounded-[1.5rem] text-left font-extrabold text-sm md:text-base transition-colors duration-500 whitespace-nowrap lg:whitespace-normal group"
               >
                 {/* Fluid Background Indicator */}
                 {activeTab === tab.id && (
                   <motion.div 
-                    layoutId="resumeTabIndicator"
-                    className="absolute inset-0 bg-[#10b981] rounded-2xl shadow-md"
-                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                    layoutId="resumeTabPremiumIndicator"
+                    className="absolute inset-0 bg-gradient-to-r from-[#10b981] to-teal-500 rounded-[1.5rem] shadow-lg shadow-emerald-500/20"
+                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
                   />
                 )}
                 
-                <span className={`relative z-10 transition-colors duration-300 ${activeTab === tab.id ? 'text-white' : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-200'}`}>
-                  {React.cloneElement(tab.icon, { size: 18 })}
+                <span className={`relative z-10 transition-colors duration-500 ${activeTab === tab.id ? 'text-white drop-shadow-md' : 'text-gray-400 dark:text-gray-500 group-hover:text-[#10b981] dark:group-hover:text-[#10b981]'}`}>
+                  {React.cloneElement(tab.icon, { size: 20 })}
                 </span>
-                <span className={`relative z-10 tracking-wide transition-colors duration-300 ${activeTab === tab.id ? 'text-white' : 'text-gray-600 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white'}`}>
+                <span className={`relative z-10 tracking-wide transition-colors duration-500 ${activeTab === tab.id ? 'text-white drop-shadow-md' : 'text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white'}`}>
                   {tab.id}
                 </span>
               </button>
             ))}
           </motion.div>
 
-          {/* Right Content Area */}
-          <div className="lg:col-span-8 min-h-[450px]">
+          {/* Dynamic Content Area */}
+          <div className="lg:col-span-8 min-h-[500px]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
-                initial={{ opacity: 0, y: 10, filter: 'blur(4px)' }}
+                initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, y: -10, filter: 'blur(4px)' }}
-                transition={{ duration: 0.25 }}
+                exit={{ opacity: 0, y: -20, filter: 'blur(8px)' }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
               >
                 {renderContent()}
               </motion.div>

@@ -1,166 +1,200 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
-import { FiCode, FiLayout, FiDatabase, FiTerminal } from 'react-icons/fi';
 
-// 1. We map your resume data into formats the Radar Chart can read
-const skillCategories = {
-  Overview: [
-    { subject: 'Frontend', score: 90, icon: <FiLayout /> },
-    { subject: 'Backend', score: 85, icon: <FiTerminal /> },
-    { subject: 'Languages', score: 88, icon: <FiCode /> },
-    { subject: 'Databases', score: 82, icon: <FiDatabase /> },
-    { subject: 'Tools', score: 85, icon: <FiTerminal /> }
+// Importing Icons
+import { 
+  FaJava, FaPython, FaPhp, FaHtml5, FaCss3Alt, FaReact, 
+  FaNodeJs, FaGitAlt, FaGithub 
+} from 'react-icons/fa';
+import { 
+  SiCplusplus, SiJavascript, SiExpress, SiTailwindcss, 
+  SiMysql, SiMongodb 
+} from 'react-icons/si';
+import { FiClock, FiUsers, FiRefreshCw, FiTerminal, FiCpu } from 'react-icons/fi';
+
+const skillsData = {
+  "Languages": [
+    { name: 'C++', icon: SiCplusplus, color: 'text-blue-500', glow: 'shadow-blue-500/50', border: 'group-hover:border-blue-500/50', bg: 'bg-blue-500/10' },
+    { name: 'Java', icon: FaJava, color: 'text-red-500', glow: 'shadow-red-500/50', border: 'group-hover:border-red-500/50', bg: 'bg-red-500/10' },
+    { name: 'Python', icon: FaPython, color: 'text-yellow-400', glow: 'shadow-yellow-400/50', border: 'group-hover:border-yellow-400/50', bg: 'bg-yellow-400/10' },
+    { name: 'PHP', icon: FaPhp, color: 'text-indigo-400', glow: 'shadow-indigo-400/50', border: 'group-hover:border-indigo-400/50', bg: 'bg-indigo-500/10' },
+    { name: 'JavaScript', icon: SiJavascript, color: 'text-yellow-300', glow: 'shadow-yellow-300/50', border: 'group-hover:border-yellow-300/50', bg: 'bg-yellow-400/10' },
+    { name: 'HTML5', icon: FaHtml5, color: 'text-orange-500', glow: 'shadow-orange-500/50', border: 'group-hover:border-orange-500/50', bg: 'bg-orange-500/10' },
+    { name: 'CSS3', icon: FaCss3Alt, color: 'text-blue-400', glow: 'shadow-blue-400/50', border: 'group-hover:border-blue-400/50', bg: 'bg-blue-500/10' }
   ],
-  Languages: [
-    { subject: 'Java', score: 90 },
-    { subject: 'C++', score: 85 },
-    { subject: 'Python', score: 80 },
-    { subject: 'JavaScript', score: 88 },
-    { subject: 'PHP', score: 75 },
-    { subject: 'HTML/CSS', score: 95 }
+  "Frameworks": [
+    { name: 'React.js', icon: FaReact, color: 'text-cyan-400', glow: 'shadow-cyan-400/50', border: 'group-hover:border-cyan-400/50', bg: 'bg-cyan-400/10' },
+    { name: 'Express.js', icon: SiExpress, color: 'text-gray-800 dark:text-gray-200', glow: 'shadow-gray-400/50', border: 'group-hover:border-gray-400/50', bg: 'bg-gray-500/10' },
+    { name: 'Tailwind CSS', icon: SiTailwindcss, color: 'text-teal-400', glow: 'shadow-teal-400/50', border: 'group-hover:border-teal-400/50', bg: 'bg-teal-400/10' }
   ],
-  Frameworks: [
-    { subject: 'React.js', score: 92 },
-    { subject: 'Express.js', score: 85 },
-    { subject: 'Tailwind CSS', score: 95 }
+  "Tools & Database": [
+    { name: 'Node.js', icon: FaNodeJs, color: 'text-green-500', glow: 'shadow-green-500/50', border: 'group-hover:border-green-500/50', bg: 'bg-green-500/10' },
+    { name: 'MySQL', icon: SiMysql, color: 'text-blue-600 dark:text-blue-400', glow: 'shadow-blue-500/50', border: 'group-hover:border-blue-500/50', bg: 'bg-blue-500/10' },
+    { name: 'MongoDB', icon: SiMongodb, color: 'text-green-500', glow: 'shadow-green-500/50', border: 'group-hover:border-green-500/50', bg: 'bg-green-600/10' },
+    { name: 'Git', icon: FaGitAlt, color: 'text-orange-600', glow: 'shadow-orange-600/50', border: 'group-hover:border-orange-600/50', bg: 'bg-orange-600/10' },
+    { name: 'GitHub', icon: FaGithub, color: 'text-gray-900 dark:text-white', glow: 'shadow-gray-500/50', border: 'group-hover:border-gray-500/50', bg: 'bg-gray-500/10' }
   ],
-  Tools: [
-    { subject: 'Node.js', score: 88 },
-    { subject: 'MongoDB', score: 85 },
-    { subject: 'MySQL', score: 80 },
-    { subject: 'Git/GitHub', score: 90 }
+  "Soft Skills": [
+    { name: 'Adaptability', icon: FiRefreshCw, color: 'text-emerald-400', glow: 'shadow-emerald-400/50', border: 'group-hover:border-emerald-400/50', bg: 'bg-emerald-500/10' },
+    { name: 'Time Mgmt', icon: FiClock, color: 'text-blue-400', glow: 'shadow-blue-400/50', border: 'group-hover:border-blue-400/50', bg: 'bg-blue-500/10' },
+    { name: 'Team Player', icon: FiUsers, color: 'text-purple-400', glow: 'shadow-purple-400/50', border: 'group-hover:border-purple-400/50', bg: 'bg-purple-500/10' }
   ]
 };
 
-const tabs = Object.keys(skillCategories);
+const categories = Object.keys(skillsData);
+
+// Advanced Stagger Animations
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.08, delayChildren: 0.1 }
+  },
+  exit: {
+    opacity: 0,
+    transition: { staggerChildren: 0.05, staggerDirection: -1 }
+  }
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 40, scale: 0.8, rotateX: -15 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    scale: 1,
+    rotateX: 0,
+    transition: { type: "spring", stiffness: 150, damping: 12, mass: 0.8 }
+  },
+  exit: { opacity: 0, scale: 0.8, y: 20, transition: { duration: 0.2 } }
+};
 
 const Skills = () => {
-  const [activeTab, setActiveTab] = useState('Overview');
-
-  const currentData = skillCategories[activeTab];
+  const [activeTab, setActiveTab] = useState('Languages');
 
   return (
-    <section id="skills" className="py-24 px-4 md:px-8 lg:px-16 border-t border-cardLight relative overflow-hidden">
+    <section id="skills" className="py-24 px-4 md:px-8 lg:px-12 min-h-screen bg-[#f4f7f9] dark:bg-[#0B1120] relative overflow-hidden transition-colors duration-500 perspective-1000">
       
-      {/* Background glow effect */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
+      {/* High-Tech Grid Overlay */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9InJnYmEoMTI4LCAxMjgsIDEyOCwgMC4xKSIvPjwvc3ZnPg==')] opacity-50 dark:opacity-20 z-0"></div>
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      {/* Massive Glowing Orbs */}
+      <motion.div 
+        animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15], rotate: [0, 90, 0] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute -top-32 -left-32 w-[600px] h-[600px] bg-gradient-to-br from-blue-500 to-purple-500 rounded-full blur-[150px] pointer-events-none z-0"
+      />
+      <motion.div 
+        animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.25, 0.1], rotate: [0, -90, 0] }}
+        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute bottom-0 -right-32 w-[700px] h-[700px] bg-gradient-to-tl from-[#10b981] to-teal-400 rounded-full blur-[150px] pointer-events-none z-0"
+      />
+
+      <div className="max-w-[1300px] mx-auto relative z-10">
         
-        {/* Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <h2 className="font-serif text-4xl md:text-5xl font-bold text-textMain mb-4">My <span className="text-primary">Skills</span></h2>
-          <div className="w-16 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full mb-4"></div>
-          <p className="text-textMuted max-w-2xl mx-auto">
-            Visualizing technical mastery through data and interactive representation.
-          </p>
-        </motion.div>
-
-        {/* Interactive Tabs */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {tabs.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 border ${
-                activeTab === tab 
-                  ? 'bg-primary border-primary text-white shadow-[0_0_15px_rgba(37,99,235,0.4)]' 
-                  : 'bg-transparent border-cardLight text-textMuted hover:border-textMuted hover:text-textMain'
-              }`}
-            >
-              {tab.toUpperCase()}
-            </button>
-          ))}
-        </div>
-
-        {/* Content Grid */}
-        <div className="grid lg:grid-cols-12 gap-8 items-center">
-          
-          {/* Left Side: Radar Chart */}
+        {/* Header Section */}
+        <div className="text-center mb-16">
           <motion.div 
-            key={`chart-${activeTab}`} // Forces re-animation on tab change
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="lg:col-span-5 glass-card p-6 h-[400px] md:h-[500px] flex flex-col relative"
+            initial={{ opacity: 0, y: -30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+            className="flex flex-col items-center"
           >
-            <h3 className="text-sm font-bold text-textMuted uppercase tracking-wider mb-2 absolute top-6 left-6 z-10">
-              {activeTab} Mastery
-            </h3>
-            
-            <div className="flex-1 w-full h-full mt-4">
-              <ResponsiveContainer width="100%" height="100%">
-                <RadarChart cx="50%" cy="50%" outerRadius="65%" data={currentData}>
-                  <PolarGrid stroke="#1B263B" />
-                  <PolarAngleAxis 
-                    dataKey="subject" 
-                    tick={{ fill: '#94A3B8', fontSize: 12, fontWeight: 500 }} 
-                  />
-                  <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
-                  <Radar 
-                    name="Skills" 
-                    dataKey="score" 
-                    stroke="#38BDF8" 
-                    strokeWidth={2}
-                    fill="#2563EB" 
-                    fillOpacity={0.4} 
-                  />
-                </RadarChart>
-              </ResponsiveContainer>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 dark:bg-white/5 border border-gray-200 dark:border-white/10 backdrop-blur-md mb-6 shadow-sm">
+              <FiCpu className="text-[#10b981] animate-pulse" size={16} />
+              <span className="text-xs font-black tracking-[0.2em] text-gray-800 dark:text-gray-300 uppercase">
+                Technical Arsenal
+              </span>
             </div>
+            <h2 className="font-sans text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-6 drop-shadow-sm">
+              My <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#10b981] via-teal-400 to-blue-500">Skills</span>
+            </h2>
           </motion.div>
 
-          {/* Right Side: Skill Cards */}
-          <div className="lg:col-span-7">
-            <motion.div 
-              key={`cards-${activeTab}`}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, staggerChildren: 0.1 }}
-              className="grid grid-cols-2 md:grid-cols-3 gap-4"
-            >
-              <AnimatePresence mode="popLayout">
-                {currentData.map((skill, index) => (
-                  <motion.div
-                    key={skill.subject}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    transition={{ delay: index * 0.05 }}
-                    className="glass-card p-5 flex flex-col items-center justify-center text-center group hover:-translate-y-1 hover:border-primary/50 transition-all"
-                  >
-                    {/* Fake Logo Block */}
-                    <div className="w-12 h-12 rounded-xl bg-cardLight flex items-center justify-center text-xl font-bold text-textMain mb-4 group-hover:text-accent group-hover:shadow-[0_0_15px_rgba(56,189,248,0.3)] transition-all">
-                      {skill.icon ? skill.icon : skill.subject.substring(0, 1)}
-                    </div>
-                    
-                    <h4 className="font-bold text-textMain text-sm mb-4 uppercase tracking-wide">{skill.subject}</h4>
-                    
-                    {/* Progress Bar Container */}
-                    <div className="w-full flex items-center justify-between gap-3">
-                       <div className="flex-1 h-1.5 bg-cardLight rounded-full overflow-hidden">
-                          <motion.div 
-                            initial={{ width: 0 }}
-                            animate={{ width: `${skill.score}%` }}
-                            transition={{ duration: 1, delay: 0.2 }}
-                            className="h-full bg-gradient-to-r from-primary to-accent rounded-full"
-                          ></motion.div>
-                       </div>
-                       <span className="text-xs font-semibold text-textMuted">{skill.score}%</span>
-                    </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </motion.div>
-          </div>
-
+          {/* Premium Animated Tabs */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="flex flex-wrap justify-center gap-2 md:gap-3 bg-white/40 dark:bg-[#1e293b]/40 backdrop-blur-xl p-2 rounded-2xl border border-white/50 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.1)] max-w-fit mx-auto"
+          >
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setActiveTab(category)}
+                className={`relative px-6 py-3 rounded-xl text-sm md:text-base font-bold transition-all duration-500 ${
+                  activeTab === category 
+                    ? 'text-white shadow-lg' 
+                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/5'
+                }`}
+              >
+                {activeTab === category && (
+                  <motion.div 
+                    layoutId="activeSkillTab"
+                    className="absolute inset-0 bg-gradient-to-r from-[#10b981] to-blue-500 rounded-xl"
+                    initial={false}
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
+                <span className="relative z-10 tracking-wide">{category}</span>
+              </button>
+            ))}
+          </motion.div>
         </div>
+
+        {/* Dynamic Skills Grid */}
+        <div className="min-h-[450px]">
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={activeTab}
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"
+            >
+              {skillsData[activeTab].map((skill) => {
+                const IconComponent = skill.icon;
+                return (
+                  <motion.div
+                    key={skill.name}
+                    variants={cardVariants}
+                    whileHover={{ y: -10 }}
+                    className={`group relative bg-white/70 dark:bg-[#1e293b]/50 backdrop-blur-md border-2 border-gray-100/50 dark:border-white/5 p-6 rounded-[2rem] transition-all duration-300 flex flex-col items-center justify-center gap-5 shadow-sm hover:shadow-2xl dark:shadow-none cursor-pointer overflow-hidden ${skill.border}`}
+                  >
+                    {/* Glowing Backlight Effect (Activates on Hover) */}
+                    <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-b from-transparent to-black/5 dark:to-white/5 pointer-events-none`}></div>
+                    <div className={`absolute -inset-1 opacity-0 group-hover:opacity-20 blur-xl transition-all duration-500 ${skill.bg}`}></div>
+
+                    {/* Highly Animated Icon Container */}
+                    <motion.div 
+                      animate={{ y: [-3, 3, -3] }}
+                      transition={{ repeat: Infinity, duration: 4 + Math.random(), ease: "easeInOut" }}
+                      className={`w-20 h-20 rounded-2xl ${skill.bg} flex items-center justify-center group-hover:scale-110 group-hover:rotate-[10deg] transition-all duration-500 relative z-10 border border-white/50 dark:border-white/10 shadow-inner`}
+                    >
+                      <IconComponent className={`text-5xl ${skill.color} drop-shadow-lg group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-all duration-500`} />
+                    </motion.div>
+
+                    {/* Skill Text */}
+                    <h3 className={`text-gray-800 dark:text-gray-200 font-extrabold text-lg tracking-wider relative z-10 transition-colors duration-300 ${skill.color.replace('text-', 'group-hover:text-')}`}>
+                      {skill.name}
+                    </h3>
+
+                    {/* Cyber-Line Accent at the bottom */}
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-1 bg-gradient-to-r from-transparent via-current to-transparent opacity-0 group-hover:w-full group-hover:opacity-100 transition-all duration-500 ease-out" style={{ color: 'inherit' }}>
+                       <div className={`w-full h-full ${skill.bg.replace('/10', '/50')}`}></div>
+                    </div>
+
+                    {/* Tech Crosshairs */}
+                    <div className="absolute top-3 left-3 w-2 h-2 border-t-2 border-l-2 border-gray-300 dark:border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="absolute top-3 right-3 w-2 h-2 border-t-2 border-r-2 border-gray-300 dark:border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
       </div>
     </section>
   );
