@@ -12,7 +12,7 @@ const Chatbot = () => {
 
   // Initial greeting
   const initialMessage = { 
-    text: "👋 Hi! I'm Rahul's AI assistant. I can answer questions about his skills, projects, education, and experience!", 
+    text: portfolioData.chatbotData?.greetings || "👋 Hi! I'm Rahul's AI assistant. I can answer questions about his skills, projects, education, and experience! What would you like to know?", 
     isBot: true 
   };
   
@@ -31,43 +31,50 @@ const Chatbot = () => {
     { label: "Contact 📬", query: "contact" }
   ];
 
-  // Advanced "AI" Keyword Matching Logic using CV Data
+  // Advanced Regex Keyword Matching Logic
   const generateBotResponse = (input) => {
     const lowerInput = input.toLowerCase();
-    
-    // Safely access the new chatbotData from content.js
     const botData = portfolioData.chatbotData || {};
     
-    if (lowerInput.includes("about") || lowerInput.includes("who")) {
-      return botData.about || `Rahul is a Full-Stack Developer and B.Tech CSE student at LPU.`;
+    // Greeting
+    if (/(hello|hi|hey|greetings|morning|afternoon|evening)/i.test(lowerInput)) {
+      return botData.greetings;
     }
-    if (lowerInput.includes("skill") || lowerInput.includes("tech") || lowerInput.includes("stack")) {
-      return botData.skills || `Rahul's primary skills include ${portfolioData.skills.languages.join(", ")}.`;
+    // About / Profile
+    if (/(about|who is|background|profile|intro|summary)/i.test(lowerInput)) {
+      return botData.about;
     }
-    if (lowerInput.includes("project") || lowerInput.includes("work") || lowerInput.includes("portfolio")) {
-      return botData.projects || `Top projects include ${portfolioData.projects.map(p => p.title).join(", ")}.`;
+    // Skills / Tech Stack
+    if (/(skill|tech|stack|language|framework|tool|database|know|proficient)/i.test(lowerInput)) {
+      return botData.skills;
     }
-    if (lowerInput.includes("education") || lowerInput.includes("study") || lowerInput.includes("cgpa") || lowerInput.includes("lpu") || lowerInput.includes("college")) {
-      return botData.education || `Rahul is pursuing a B.Tech in CSE at Lovely Professional University with an 8.03 CGPA.`;
+    // Projects / Work
+    if (/(project|work|portfolio|build|built|github|repo|code)/i.test(lowerInput)) {
+      return botData.projects;
     }
-    if (lowerInput.includes("training") || lowerInput.includes("experience") || lowerInput.includes("intern")) {
-      return botData.experience_training || `Rahul completed training at LPU HRDC focusing on Java App Development.`;
+    // Education / College
+    if (/(education|study|cgpa|lpu|college|school|degree|b\.tech|btech|marks|grade)/i.test(lowerInput)) {
+      return botData.education;
     }
-    if (lowerInput.includes("achieve") || lowerInput.includes("cert") || lowerInput.includes("hackerrank") || lowerInput.includes("leetcode")) {
-      return botData.achievements_certs || `Rahul has solved 100+ LeetCode problems and holds 5-star ratings on HackerRank.`;
+    // Training / Experience
+    if (/(training|experience|intern|bootcamp|summer)/i.test(lowerInput)) {
+      return botData.experience_training;
     }
-    if (lowerInput.includes("contact") || lowerInput.includes("email") || lowerInput.includes("hire") || lowerInput.includes("phone")) {
-      return botData.contact || `You can reach out directly at ${portfolioData.personal.email} or call ${portfolioData.personal.phone}.`;
+    // Achievements / Certifications
+    if (/(achieve|cert|hackerrank|leetcode|badge|course|coursera|nptel|infosys)/i.test(lowerInput)) {
+      return botData.achievements_certs;
     }
-    if (lowerInput.includes("resume") || lowerInput.includes("cv") || lowerInput.includes("download")) {
-      return `You can download his full resume from the top navigation bar or the Career Snapshot section!`;
+    // Contact / Hire
+    if (/(contact|email|hire|phone|call|whatsapp|reach|connect|number)/i.test(lowerInput)) {
+      return botData.contact;
     }
-    if (lowerInput.includes("hello") || lowerInput.includes("hi") || lowerInput.includes("hey")) {
-      return botData.greetings || `Hello! How can I help you learn more about Rahul's professional background?`;
+    // Resume
+    if (/(resume|cv|download|document)/i.test(lowerInput)) {
+      return `You can view and download Rahul's full resume by clicking the "Resume" tab in the top navigation bar!`;
     }
     
-    // Fallback response
-    return `I'm still learning! You can ask me about Rahul's "skills", "projects", "education", or "contact info". You can also email him directly at ${portfolioData.personal.email}.`;
+    // Professional Fallback response with bullet points
+    return `I'm still learning! However, I can easily help you with specific topics. Try asking me about:\n• "What are his skills?"\n• "Tell me about his projects"\n• "What is his educational background?"\n• "How can I contact him?"`;
   };
 
   const handleSendMessage = (text = inputValue) => {
@@ -83,7 +90,7 @@ const Chatbot = () => {
       const response = generateBotResponse(text);
       setMessages(prev => [...prev, { text: response, isBot: true }]);
       setIsTyping(false);
-    }, 1500); 
+    }, 1200); // Slightly faster response time for better UX
   };
 
   const handleClearChat = () => {
@@ -100,13 +107,13 @@ const Chatbot = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            className="mb-6 w-[340px] sm:w-[380px] bg-white/80 dark:bg-[#0B1120]/80 backdrop-blur-2xl rounded-[2rem] shadow-[0_10px_50px_rgba(0,0,0,0.2)] dark:shadow-[0_10px_50px_rgba(16,185,129,0.15)] overflow-hidden border border-gray-200/50 dark:border-white/10 flex flex-col h-[550px] relative"
+            className="mb-6 w-[340px] sm:w-[380px] bg-white/90 dark:bg-[#0a0f18]/90 backdrop-blur-2xl rounded-[2rem] shadow-[0_10px_50px_rgba(0,0,0,0.2)] dark:shadow-[0_10px_50px_rgba(16,185,129,0.15)] overflow-hidden border border-gray-200/50 dark:border-gray-800 flex flex-col h-[550px] relative"
           >
             {/* Top Gradient Accent */}
             <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#10b981] via-teal-400 to-blue-500"></div>
 
             {/* Header */}
-            <div className="bg-gray-50/50 dark:bg-white/5 p-4 pt-5 border-b border-gray-200/50 dark:border-white/10 flex justify-between items-center">
+            <div className="bg-gray-50/80 dark:bg-[#06090e]/80 p-4 pt-5 border-b border-gray-200/50 dark:border-gray-800 flex justify-between items-center z-10 backdrop-blur-md">
               <div className="flex items-center gap-3">
                 <div className="relative">
                   <div className="w-11 h-11 bg-gradient-to-br from-[#10b981] to-blue-500 text-white rounded-full flex items-center justify-center shadow-inner">
@@ -115,7 +122,7 @@ const Chatbot = () => {
                   <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white dark:border-[#0B1120] rounded-full animate-pulse"></span>
                 </div>
                 <div>
-                  <h3 className="font-extrabold text-gray-900 dark:text-white text-sm">Rahul's Assistant</h3>
+                  <h3 className="font-extrabold text-gray-900 dark:text-white text-sm">Rahul's AI Assistant</h3>
                   <p className="text-xs text-[#10b981] font-bold tracking-widest uppercase mt-0.5">Online</p>
                 </div>
               </div>
@@ -130,7 +137,7 @@ const Chatbot = () => {
             </div>
 
             {/* Chat Messages Area */}
-            <div className="flex-1 p-5 overflow-y-auto flex flex-col gap-5 scrollbar-hide">
+            <div className="flex-1 p-5 overflow-y-auto flex flex-col gap-5 scrollbar-hide z-10">
               <AnimatePresence>
                 {messages.map((msg, idx) => (
                   <motion.div 
@@ -140,12 +147,18 @@ const Chatbot = () => {
                     key={idx} 
                     className={`flex ${msg.isBot ? 'justify-start' : 'justify-end'}`}
                   >
-                    <div className={`max-w-[85%] p-3.5 rounded-2xl text-sm font-medium leading-relaxed ${
+                    <div className={`max-w-[85%] p-4 rounded-2xl text-[13px] font-medium leading-relaxed ${
                       msg.isBot 
-                        ? 'bg-gray-100/80 dark:bg-white/5 text-gray-800 dark:text-gray-200 rounded-tl-sm border border-gray-200/50 dark:border-white/5 shadow-sm' 
+                        ? 'bg-gray-100/80 dark:bg-[#1e293b]/60 text-gray-800 dark:text-gray-200 rounded-tl-sm border border-gray-200/50 dark:border-gray-700/50 shadow-sm' 
                         : 'bg-gradient-to-r from-[#10b981] to-teal-500 text-white rounded-tr-sm shadow-md shadow-emerald-500/20'
                     }`}>
-                      {msg.text}
+                      {/* Smart Text Formatting for \n (new lines) */}
+                      {msg.text.split('\n').map((line, i) => (
+                        <React.Fragment key={i}>
+                          {line}
+                          {i !== msg.text.split('\n').length - 1 && <br className="my-1.5" />}
+                        </React.Fragment>
+                      ))}
                     </div>
                   </motion.div>
                 ))}
@@ -154,7 +167,7 @@ const Chatbot = () => {
               {/* Typing Indicator */}
               {isTyping && (
                 <div className="flex justify-start">
-                  <div className="bg-gray-100/80 dark:bg-white/5 border border-gray-200/50 dark:border-white/5 px-4 py-4 rounded-2xl rounded-tl-sm flex gap-1.5 w-16 items-center justify-center shadow-sm">
+                  <div className="bg-gray-100/80 dark:bg-[#1e293b]/60 border border-gray-200/50 dark:border-gray-700/50 px-4 py-4 rounded-2xl rounded-tl-sm flex gap-1.5 w-16 items-center justify-center shadow-sm">
                     <motion.div animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, ease: "easeInOut" }} className="w-1.5 h-1.5 bg-[#10b981] rounded-full" />
                     <motion.div animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, ease: "easeInOut", delay: 0.2 }} className="w-1.5 h-1.5 bg-[#10b981] rounded-full" />
                     <motion.div animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 0.6, ease: "easeInOut", delay: 0.4 }} className="w-1.5 h-1.5 bg-[#10b981] rounded-full" />
@@ -166,12 +179,12 @@ const Chatbot = () => {
 
             {/* Quick Prompts Container */}
             {!isTyping && messages.length < 4 && (
-               <div className="px-4 pb-3 overflow-x-auto scrollbar-hide flex gap-2">
+               <div className="px-4 pb-3 overflow-x-auto scrollbar-hide flex gap-2 z-10 border-t border-gray-100 dark:border-gray-800/50 pt-3">
                  {quickQuestions.map((q, idx) => (
                    <button
                      key={idx}
                      onClick={() => handleSendMessage(q.query)}
-                     className="whitespace-nowrap text-xs font-bold bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20 hover:bg-[#10b981] hover:text-white px-4 py-2 rounded-full transition-all duration-300 shadow-sm"
+                     className="whitespace-nowrap text-xs font-bold bg-emerald-50 dark:bg-[#10b981]/10 text-[#10b981] border border-emerald-200 dark:border-[#10b981]/20 hover:bg-[#10b981] hover:text-white px-4 py-2 rounded-full transition-all duration-300 shadow-sm"
                    >
                      {q.label}
                    </button>
@@ -180,10 +193,10 @@ const Chatbot = () => {
             )}
 
             {/* Input Area */}
-            <div className="p-4 bg-gray-50/50 dark:bg-[#0B1120]/50 border-t border-gray-200/50 dark:border-white/10">
+            <div className="p-4 bg-gray-50/80 dark:bg-[#06090e]/80 border-t border-gray-200/50 dark:border-gray-800 z-10 backdrop-blur-md">
               <form 
                 onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }}
-                className="flex items-center gap-2 bg-white dark:bg-[#1e293b]/50 border border-gray-200 dark:border-white/10 rounded-full pl-5 pr-2 py-2 focus-within:border-[#10b981] focus-within:ring-2 focus-within:ring-[#10b981]/20 transition-all shadow-inner"
+                className="flex items-center gap-2 bg-white dark:bg-[#0a0f18] border border-gray-200 dark:border-gray-700 rounded-full pl-5 pr-2 py-2 focus-within:border-[#10b981] focus-within:ring-2 focus-within:ring-[#10b981]/20 transition-all shadow-inner"
               >
                 <input
                   type="text"
@@ -195,7 +208,7 @@ const Chatbot = () => {
                 <button 
                   type="submit" 
                   disabled={!inputValue.trim() || isTyping}
-                  className="w-10 h-10 rounded-full bg-[#10b981] text-white flex items-center justify-center hover:bg-teal-500 disabled:opacity-50 disabled:hover:bg-[#10b981] transition-colors shadow-md"
+                  className="w-10 h-10 rounded-full bg-[#10b981] text-white flex items-center justify-center hover:bg-teal-500 disabled:opacity-50 disabled:hover:bg-[#10b981] transition-colors shadow-md shrink-0"
                 >
                   <FiSend size={16} className="-ml-0.5 mt-0.5" />
                 </button>

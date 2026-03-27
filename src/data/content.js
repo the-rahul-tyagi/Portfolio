@@ -1,21 +1,23 @@
 export const portfolioData = {
   personal: {
     name: "Rahul Tyagi",
-    role: "Full-Stack Developer & DSA Enthusiast",
+    role: "Full-Stack Developer & Software Engineer",
     email: "rahultyagiji6398@gmail.com",
     phone: "+91 7456893612",
     linkedin: "https://www.linkedin.com/in/the-rahul-tyagi/",
     github: "https://github.com/the-rahul-tyagi",
-    location: "Agra, Uttar Pradesh / Jalandhar, Punjab",
+    twitter: "https://x.com/rt_rahultyagi", // Added from the new footer
+    location: "Agra, Uttar Pradesh / Phagwara, Punjab",
     tagline: "Building scalable full-stack applications and solving complex algorithmic problems.",
-    about: "I am a B.Tech Computer Science student at Lovely Professional University with an 8.03 CGPA. I specialize in Full-Stack Web Development (MERN, PHP) and have a strong foundation in algorithmic problem solving with Java and C++. I am passionate about integrating modern AI APIs into practical web applications."
+    about: "I am a B.Tech Computer Science student at Lovely Professional University with an 8.03 CGPA. I specialize in Full-Stack Web Development (MERN, PHP) and have a strong foundation in algorithmic problem solving with Java and C++. I am passionate about integrating modern AI APIs into practical web applications and building high-performance systems."
   },
   
   skills: {
-    languages: ["C++", "Java", "Python", "PHP", "JavaScript", "HTML/CSS"],
-    frameworks: ["React.js", "Express.js", "Tailwind CSS", "Streamlit"],
-    tools: ["Node.js", "MySQL", "MongoDB", "Git", "GitHub"],
-    softSkills: ["Adaptability", "Time Management", "Team Player"]
+    languages: ["C++", "Java", "Python", "PHP", "JavaScript", "HTML5", "CSS3"],
+    frameworks: ["React.js", "Node.js", "Express.js", "Tailwind CSS", "Streamlit"],
+    databases: ["MySQL", "MongoDB", "SQL"],
+    tools: ["Git", "GitHub", "Postman", "JWT", "REST APIs"],
+    coreConcepts: ["Data Structures & Algorithms", "Object-Oriented Programming (OOP)", "Cloud Computing", "Networking", "Generative AI Integration"]
   },
 
   projects: [
@@ -60,69 +62,84 @@ export const portfolioData = {
       location: "Phagwara, Punjab",
       degree: "Bachelor of Technology - Computer Science and Engineering",
       score: "CGPA: 8.03",
-      duration: "Aug 2023 - Present"
+      duration: "Aug 2023 - Present",
+      status: "Current"
     },
     {
       institution: "New St. Stephens Public School",
       location: "Agra, Uttar Pradesh",
-      degree: "Intermediate; PCM",
+      degree: "Intermediate (Class XII) - PCM",
       score: "Percentage: 78.4%", 
-      duration: "Mar 2021 - May 2022" 
+      duration: "Mar 2021 - May 2022",
+      status: "Completed"
     },
     {
       institution: "New St. Stephens Public School",
       location: "Agra, Uttar Pradesh",
-      degree: "Matriculation",
+      degree: "Matriculation (Class X)",
       score: "Percentage: 83.4%", 
-      duration: "Mar 2019 - May 2020" 
+      duration: "Mar 2019 - May 2020",
+      status: "Completed"
     }
   ],
 
   achievements: [
-    "Solved 100+ problems on LeetCode.",
-    "Secured a 5-Star Rating in Java, Python and C++ on HackerRank.",
-    "Earned 10+ skill badges on MongoDB Atlas & MongoDB University."
+    "Solved 100+ algorithmic problems on LeetCode.",
+    "Secured a verified 5-Star Rating in Java, Python, and C++ on HackerRank.",
+    "Earned 10+ skill badges on MongoDB Atlas & MongoDB University.",
+    "Participated and built innovative solutions in the 'Code Off Duty' Web Hackathon (March 2024)."
   ],
 
+  // Summarized list for general data mapping (Your actual Certifications page renders all 23 items beautifully)
   certifications: [
-    { title: "Node.js Architecture", issuer: "HackerRank" },
-    { title: "Python Problem Solving", issuer: "HackerRank" },
+    { title: "Node.js (Intermediate) & Python (Basic)", issuer: "HackerRank" },
+    { title: "Java (Basic) & Problem Solving (Basic)", issuer: "HackerRank" },
     { title: "Cloud Computing - Elite Certification", issuer: "NPTEL (IIT Kharagpur)" },
     { title: "Responsive Web Design", issuer: "freeCodeCamp" },
-    { title: "Java Basic", issuer: "HackerRank" },
-    { title: "Problem Solving Basic", issuer: "HackerRank" }
+    { title: "Computer Programming & OOP in C++", issuer: "NeoColab (iamneo)" },
+    { title: "Data Structures & Algorithms and Java", issuer: "NeoColab (iamneo)" },
+    { title: "Generative AI Apps & Prompt Engineering", issuer: "Infosys Springboard" },
+    { title: "7x Networking & Hardware Certifications", issuer: "Coursera (Google, IBM, Univ. of Colorado)" }
   ],
 
   training: [
     {
-      title: "Mastering Java for App Development",
+      title: "Mastering Java for Application Development",
       organization: "LPU HRDC",
       date: "Jun 2025 - Jul 2025",
-      project: "Brick Breaker Game",
-      techStack: ["Core Java", "Swing/AWT", "OOP"],
-      details: "Engineered a real-time game engine utilizing a javax.swing.Timer driven loop (8ms tick rate). Architected a scalable Object-Oriented system and developed custom 2D collision physics using Rectangle bounding box intersections."
+      project: "Brick Breaker Game Engine",
+      techStack: ["Core Java", "Swing/AWT", "OOPs"],
+      details: "Completed a 50-hour intensive program. Engineered a real-time game engine utilizing a javax.swing.Timer driven loop (8ms tick rate). Developed custom 2D collision physics and GUI components."
+    },
+    {
+      title: "Data Structures & Algorithms Summer Training",
+      organization: "Lovely Professional University",
+      date: "Jun 2025 - Jul 2025",
+      project: "FastShow - Movie Booking App",
+      techStack: ["DSA", "Time/Space Complexity", "Logic Optimization"],
+      details: "Mastered linear and non-linear data structures, sorting/searching algorithms, recursion, and dynamic programming to vastly improve coding efficiency and problem-solving speed."
     }
   ],
 
   // =======================================================================
-  // NEW CHATBOT DATA SECTION
-  // The chatbot component will read these exact strings to answer questions
+  // ULTIMATE CHATBOT DATA SECTION
+  // The chatbot will use these robust strings to answer complex queries
   // =======================================================================
   chatbotData: {
-    greetings: "👋 Hi! I'm Rahul's AI assistant. I can tell you all about his Full-Stack projects, his 8.03 CGPA at LPU, his 5-star HackerRank skills, or how to contact him. What would you like to know?",
+    greetings: "👋 Hi! I'm Rahul's AI assistant. I can tell you about his Full-Stack projects (like his Volunteer System), his 8.03 CGPA at LPU, his massive library of 15+ certifications, his HackerRank 5-star ratings, or how to contact him. What would you like to know?",
     
-    about: "Rahul is a Full-Stack Developer and B.Tech CSE student at Lovely Professional University (8.03 CGPA). He builds scalable web applications using the MERN stack and PHP, and he integrates AI like Google Gemini into his projects. He is also highly active in algorithmic problem-solving with Java and C++.",
+    about: "Rahul is a Full-Stack Developer and B.Tech CSE student at Lovely Professional University (8.03 CGPA). He builds scalable web applications using the MERN stack and PHP, and he loves integrating AI like Google Gemini into his projects. He is also highly active in algorithmic problem-solving with Java and C++.",
     
-    skills: "Rahul is proficient in Languages: C++, Java, Python, PHP, JavaScript, HTML/CSS. Frameworks: React.js, Express.js, Tailwind CSS. Tools & Databases: Node.js, MySQL, MongoDB, Git, and GitHub. He also has a 5-star rating in Java, Python, and C++ on HackerRank!",
+    skills: "Rahul's core tech stack includes:\n💻 Languages: C++, Java, Python, PHP, JavaScript.\n🚀 Frameworks: React.js, Node.js, Express.js, Tailwind CSS.\n🗄️ Databases: MongoDB, MySQL.\nHe also has a deep understanding of Data Structures, OOP, and Networking, backed by 5-star HackerRank ratings in Java, Python, and C++!",
     
-    projects: "Rahul has 3 major projects:\n1. 'Volunteer Registration System' (MERN + Gemini API) with a custom waitlist algorithm.\n2. 'UniProjectHub' (PHP/MySQL), a secure collaboration platform.\n3. 'AI Study Buddy Pro' (Python/Streamlit + Gemini 1.5 Pro) for dynamic study guides. Want a link to any of his GitHub repos?",
+    projects: "Rahul has built several high-impact projects:\n1. 'Volunteer Registration System' (MERN + Gemini API) featuring an automated waitlist algorithm and RBAC.\n2. 'UniProjectHub' (PHP/MySQL), a secure collaboration platform for students.\n3. 'AI Study Buddy Pro' (Python/Streamlit) which uses Gemini 1.5 Pro for dynamic study guides and multimodal image chat.\nWant a link to his GitHub? It's github.com/the-rahul-tyagi",
     
-    education: "Rahul is currently pursuing his B.Tech in Computer Science at Lovely Professional University (LPU) in Phagwara, maintaining an 8.03 CGPA. Previously, he completed his Intermediate (PCM) with 78.4% and Matriculation with 83.4% from New St. Stephens Public School in Agra.",
+    education: "Rahul is currently pursuing his B.Tech in Computer Science at Lovely Professional University (LPU) in Phagwara, maintaining an 8.03 CGPA. He completed his Intermediate (PCM) with 78.4% and Matriculation with 83.4% from New St. Stephens Public School in Agra.",
     
-    experience_training: "Rahul completed an intensive training program called 'Mastering Java for App Development' at LPU HRDC in mid-2025. During this, he built a complete 2D Brick Breaker game engine from scratch using Core Java, Swing/AWT, and custom collision physics.",
+    experience_training: "Rahul has completed two major rigorous training programs at LPU:\n1. A 50-hour 'Mastering Java' course where he built a 2D Brick Breaker game engine from scratch using Core Java and custom collision physics.\n2. An intensive 'Data Structures & Algorithms' summer training focused on time/space complexity, dynamic programming, and advanced problem-solving.",
     
-    achievements_certs: "Rahul has solved over 100+ problems on LeetCode and holds 5-star ratings in Java, Python, and C++ on HackerRank. He also holds Elite Certification in Cloud Computing from NPTEL (IIT Kharagpur) and various certifications in Node.js, Python, and Web Design from HackerRank and freeCodeCamp.",
+    achievements_certs: "Rahul's credentials are incredible! He has solved 100+ problems on LeetCode and has 15+ professional certifications. These include HackerRank certs in Node.js, Python, and Java; an Elite Cloud Computing cert from NPTEL; AI & Prompt Engineering from Infosys; and 7 separate Networking/Hardware certs from Coursera (Google, IBM, Univ. of Colorado).",
     
-    contact: "You can email Rahul directly at rahultyagiji6398@gmail.com, or call/WhatsApp him at +91 7456893612. His LinkedIn is linkedin.com/in/the-rahul-tyagi and his GitHub is github.com/the-rahul-tyagi."
+    contact: "It's easy to get in touch with Rahul!\n📧 Email: rahultyagiji6398@gmail.com\n📞 Phone/WA: +91 7456893612\n💼 LinkedIn: linkedin.com/in/the-rahul-tyagi\n🐦 X (Twitter): x.com/rt_rahultyagi\n💻 GitHub: github.com/the-rahul-tyagi"
   }
 };

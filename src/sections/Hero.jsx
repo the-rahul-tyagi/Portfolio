@@ -109,7 +109,7 @@ const Hero = () => {
               { label: 'Major Projects', value: '3+' },
               { label: 'DSA Solved', value: '100+' },
               { label: 'CGPA', value: '8.03' },
-              { label: 'Certificates', value: '4+' }
+              { label: 'Certificates', value: '15+' }
             ].map((stat, i) => (
               <motion.div key={i} variants={itemVariants} className="bg-white/50 dark:bg-[#1e293b]/50 backdrop-blur-md p-4 rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all">
                 <h4 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-br from-gray-800 to-gray-500 dark:from-white dark:to-gray-400 mb-1">{stat.value}</h4>
@@ -161,50 +161,70 @@ const Hero = () => {
               </a>
             </div>
 
-            {/* Professional Highlights Box */}
+            {/* =========================================
+                UPGRADED PROFESSIONAL HIGHLIGHTS BOX 
+                ========================================= */}
             <motion.div 
-              whileHover={{ y: -5 }}
-              className="w-full max-w-sm bg-white/70 dark:bg-[#1e293b]/70 backdrop-blur-xl p-6 rounded-3xl border border-gray-100 dark:border-white/10 shadow-xl mt-8 relative overflow-hidden"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
+              className="w-full max-w-sm bg-white/60 dark:bg-[#0a0f18]/60 backdrop-blur-2xl p-7 rounded-[2rem] border border-gray-200/50 dark:border-gray-800 shadow-2xl mt-10 relative group z-30"
             >
-              {/* Highlight Box Top Accent Line */}
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#10b981] to-blue-500"></div>
-
-              <h3 className="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-5">Professional Highlights</h3>
+              {/* Animated Gradient Border effect on card hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#10b981]/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[2rem]"></div>
               
-              <div className="space-y-5">
-                <div className="flex items-start gap-4 group cursor-default">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-500/10 flex items-center justify-center text-[#10b981] group-hover:scale-110 group-hover:bg-[#10b981] group-hover:text-white transition-all shrink-0">
-                    <FiCode size={20} />
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-gray-900 dark:text-white group-hover:text-[#10b981] transition-colors">Full Stack Delivery</h4>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">From React UI to secure Node.js APIs and MongoDB database design.</p>
-                  </div>
-                </div>
+              {/* Sharp Top Accent Line */}
+              <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#10b981] via-teal-400 to-blue-500"></div>
 
-                <div className="flex items-start gap-4 group cursor-default">
-                  <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-500/10 flex items-center justify-center text-blue-500 group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-white transition-all shrink-0">
-                    <FiZap size={20} />
+              {/* Header with pulsing live indicator */}
+              <div className="flex items-center justify-between mb-6 relative z-10">
+                <h3 className="text-xs font-black text-gray-800 dark:text-gray-300 uppercase tracking-[0.2em]">Key Highlights</h3>
+                <span className="flex h-2.5 w-2.5 relative">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10b981] opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#10b981]"></span>
+                </span>
+              </div>
+              
+              <div className="space-y-6 relative z-10">
+                {/* Highlight 1 */}
+                <motion.div whileHover={{ x: 6 }} transition={{ type: "spring", stiffness: 300 }} className="flex items-start gap-4 group/item cursor-default">
+                  <div className="relative w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-100 dark:border-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shadow-sm shrink-0 overflow-hidden">
+                    <div className="absolute inset-0 bg-emerald-400/20 translate-y-full group-hover/item:translate-y-0 transition-transform duration-300 ease-out"></div>
+                    <FiCode size={20} className="relative z-10 group-hover/item:scale-110 transition-transform duration-300" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-gray-900 dark:text-white group-hover:text-blue-500 transition-colors">Algorithmic Mindset</h4>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">Strong foundation in Java & C++ with 5-star HackerRank ratings.</p>
+                    <h4 className="text-sm font-extrabold text-gray-900 dark:text-white group-hover/item:text-[#10b981] transition-colors">Full Stack Architecture</h4>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1.5 leading-relaxed font-medium">End-to-end delivery from responsive React UIs to secure Node.js & MongoDB APIs.</p>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="flex items-start gap-4 group cursor-default">
-                  <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-500/10 flex items-center justify-center text-purple-500 group-hover:scale-110 group-hover:bg-purple-500 group-hover:text-white transition-all shrink-0">
-                    <FiBriefcase size={20} />
+                {/* Highlight 2 */}
+                <motion.div whileHover={{ x: 6 }} transition={{ type: "spring", stiffness: 300 }} className="flex items-start gap-4 group/item cursor-default">
+                  <div className="relative w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-500/20 flex items-center justify-center text-blue-600 dark:text-blue-400 shadow-sm shrink-0 overflow-hidden">
+                    <div className="absolute inset-0 bg-blue-400/20 translate-y-full group-hover/item:translate-y-0 transition-transform duration-300 ease-out"></div>
+                    <FiZap size={20} className="relative z-10 group-hover/item:scale-110 transition-transform duration-300" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-gray-900 dark:text-white group-hover:text-purple-500 transition-colors">AI Integrations</h4>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">Building practical integrations with modern Google Gemini AI workflows.</p>
+                    <h4 className="text-sm font-extrabold text-gray-900 dark:text-white group-hover/item:text-blue-500 transition-colors">Algorithmic Mindset</h4>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1.5 leading-relaxed font-medium">Strong analytical foundation in Java & C++ with verified 5-star HackerRank ratings.</p>
                   </div>
-                </div>
+                </motion.div>
+
+                {/* Highlight 3 */}
+                <motion.div whileHover={{ x: 6 }} transition={{ type: "spring", stiffness: 300 }} className="flex items-start gap-4 group/item cursor-default">
+                  <div className="relative w-12 h-12 rounded-2xl bg-purple-50 dark:bg-purple-500/10 border border-purple-100 dark:border-purple-500/20 flex items-center justify-center text-purple-600 dark:text-purple-400 shadow-sm shrink-0 overflow-hidden">
+                    <div className="absolute inset-0 bg-purple-400/20 translate-y-full group-hover/item:translate-y-0 transition-transform duration-300 ease-out"></div>
+                    <FiBriefcase size={20} className="relative z-10 group-hover/item:scale-110 transition-transform duration-300" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-extrabold text-gray-900 dark:text-white group-hover/item:text-purple-500 transition-colors">Modern Integrations</h4>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1.5 leading-relaxed font-medium">Building practical, high-performance tools using modern LLMs and Web APIs.</p>
+                  </div>
+                </motion.div>
               </div>
             </motion.div>
-          </motion.div>
 
+          </motion.div>
         </motion.div>
 
       </div>
